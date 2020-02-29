@@ -7,13 +7,14 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const mongoose = require('mongoose')
-
+const bodyParser=require('body-parser')
 //Creating instance of express class.
 const app = express();
 
 //const getting router
 const indexRouter = require('./routes/index')
-
+//getting author router
+const authorRouter=require('./routes/authors')
 //setting up view engine as ejs
 app.set('view engine', 'ejs')
 
@@ -22,6 +23,9 @@ app.set('views', __dirname + '/views')
 
 //this is layout folder where all our header and footer is assigned.
 app.set('layout', 'layouts/layout');
+
+//Body Parser must be used first, before any routing applications using body parser in order to access valus easily.
+app.use(bodyParser.urlencoded({limit:'10mb',extended:false}))
 
 //using express layouts.
 app.use(expressLayouts);
@@ -32,7 +36,11 @@ app.use(express.static('public'));
 //using router
 app.use('/', indexRouter)
 
-//setting up mongoDB
+//using author router
+app.use('/authors',authorRouter)
+
+
+//setting up mongoDB    
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology:true
