@@ -1,0 +1,51 @@
+<div>
+
+    <label for="">Title</label>
+
+    <input type="text" name="title" value="<%= book.title %>">
+
+</div>
+
+<div>
+    <label for="">Author</label>
+    <select name="author">
+        <% authors.forEach(author => { %>
+        <!-- book.author is an id as per mongoose model -->
+        <% if(author.id==book.author){ %>
+        <option selected value="<%= author.id %>" label="<%= author.name  %>"></option>
+        <% } else{ %>
+        <option value="<%= author.id %>" label="<%= author.name  %>"></option>
+        <% } %>
+
+        <% }); %>
+    </select>
+</div>
+<div>
+    <label>Publish Date</label>
+    <!--                Logic: 
+                        JavaScript in ISO Format Date will be like: "2020-12-1T22:50:22"
+                        But we want the date that is before T
+                        therefore we use
+                        .toISOString() : to convert into ISO DATE
+                        .split('T'): which will split into two parts 
+                        and we want first part therefore 
+                        [0] we want first part of this split therefore written 0
+
+                        For more info on ISO DATE, I have included the link below
+                        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+    -->
+    <input type="date" name="publishDate"
+        value=" <%= book.publishDate == null ? '': book.publishDate.toISOString().split('T')[0] %> ">
+</div>
+<div>
+    <label>Page Count</label>
+    <input type="number" name="pageCount" min="1" value=" <%=book.pageCount %> ">
+</div>
+<div>
+    <label>Cover</label>
+    <input type="file" name="cover" min="1">
+</div>
+<div>
+    <label>Description</label>
+    <textarea name="description"><%=book.description%></textarea>
+</div>
