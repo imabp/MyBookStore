@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> My Book Store</title>
-    <!-- <link rel = "icon" href ="../../icon.PNG">  -->
+    
+
+<!-- filepond PLUGINS-->
+            <!-- filepond PLUGIN : filepond.css -->
+            <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+
+            <!-- filepond PLUGIN : for image preview -->
+            <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+            
+            <script defer src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+
+            <!-- filepond PLUGIN : for file encode plugin -->
+            <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+
+            <!-- filepond PLUGIN : if user has max image, we use image resize plugin -->
+            <script defer src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+
+            <!--All Plugins should be before filepond.js -->
+            <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+            <script defer src="/javascripts/fileUpload.js"></script>
+
+<title> My Book Store</title>
 </head>
 <body>
     <%- include('../partials/header.ejs') %>
