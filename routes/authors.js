@@ -1,6 +1,6 @@
 // We need express
 const express = require('express');
-
+//NEVER EVER PUT CONSOLE.lOg(ERROR) in production environment
 //getting router function from Router() from express.
 const router = express.Router();
 
@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
         res.redirect(`authors/${newAuthor.id}`)
     }
     catch(error){
-        console.log(error);
+        
         res.render('authors/new', {
             author: author,
             errorMessage: 'Error Creating Author'
@@ -77,11 +77,11 @@ router.delete('/:id', async (req, res) => {
     catch (error) {
         if (author == null) {
             //error 1 if author doesnt exist, redirect to homepage
-            console.log(error);
+            
             res.redirect('/')
         } else {
             //error 2 if unable to remve, redirect to author page.
-            console.log(error);
+            
             res.redirect(`/authors/${author.id}`)
         }
     }
@@ -98,7 +98,7 @@ router.get('/:id', async (req, res) => {
             booksByAuthor: books
         })
     } catch (error) {
-        console.log(error);
+        
         res.redirect('/')
     }
 
@@ -113,7 +113,7 @@ router.get('/:id/edit', async (req, res) => {
         const author = await Author.findById(req.params.id)
         res.render('authors/edit', { author: author })
     } catch (error) {
-        console.log(error);
+        
         res.render('/authors')
 
     }
