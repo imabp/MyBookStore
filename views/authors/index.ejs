@@ -1,15 +1,24 @@
 <div class=container>
-<h2>Search Authors</h2>
-<form action="/authors" method="get">
-<label>Name</label>
-<input type="text" name="name" value="<%= searchOptions.name %>">
-<button type="submit">Search</button>
-</form>
-<br>
+    <h2>Search Authors</h2>
+    <form action="/authors" method="get">
+        <label>Name</label>
+        <input type="text" name="name" value="<%= searchOptions.name %>">
+        <button type="submit">Search</button>
+    </form>
+    <br>
 
-<% authors.forEach(author => { %>
+    <% authors.forEach(author => { %>
     <div><%= author.name %></div>
-<% }); %>
+    <a href="/authors/<%= author.id %>">View</a>
+    <a href="/authors/<%= author.id %>/edit">Edit</a>
+    
+    <!-- 
+        Knowleddge Info see now at routes/books.js
+                We need to put it in a form, to delete anything
+
+     -->
+    <%- include('../partials/deleteForm',{url:`/authors/${author.id}`})  %> 
+    <% }); %>
 
 
 </div>

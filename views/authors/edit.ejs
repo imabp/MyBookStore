@@ -1,0 +1,12 @@
+<div class="container py-4 ">
+
+    <h2>Edit Author</h2>
+    <form action="/authors/<%= author.id %>?_method=put" method="POST">
+  
+        <%- include('_form_fields')%>
+    
+    
+        <a href="/authors/<%= author.id %>">Cancel</a>
+        <button type="submit">Create</button>
+    </form>
+    </div>

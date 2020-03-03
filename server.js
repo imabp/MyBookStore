@@ -3,11 +3,12 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-// We need express, express-ejs-layouts and mongoose
+// We need express, express-ejs-layouts,bodyparser, methodOverride(for put and delete request) and mongoose
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+var methodOverride = require('method-override')
 //Creating instance of express class.
 const app = express();
 
@@ -17,6 +18,7 @@ const indexRouter = require('./routes/index')
 const authorRouter = require('./routes/authors')
 //getting book router
 const bookRouter = require('./routes/books')
+
 //setting up view engine as ejs
 app.set('view engine', 'ejs')
 
@@ -24,11 +26,13 @@ app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
 
 //this is layout folder where all our header and footer is assigned.
-app.set('layout', 'layouts/layout');
+app.set('layout', 'layouts/layout')
+
 
 //Body Parser must be used first, before any routing applications using body parser in order to access valus easily.
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
-
+//using method override library for updations and deletions
+app.use(methodOverride('_method'))
 //using express layouts.
 app.use(expressLayouts);
 
@@ -43,6 +47,7 @@ app.use('/authors', authorRouter)
 
 //using book  router
 app.use('/books', bookRouter)
+
 
 //setting up mongoDB    
 mongoose.connect(process.env.DATABASE_URL, {
