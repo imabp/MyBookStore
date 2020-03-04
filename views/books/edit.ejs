@@ -1,0 +1,12 @@
+<div class="container py-4 ">
+
+    <h2>Edit Book</h2>
+    <form action="/books/<%= book.id %>?_method=put" method="POST">
+  
+        <%- include('_form_fields')%>
+    
+    
+        <a href="/books">Cancel</a>
+        <button type="submit">Update</button>
+    </form>
+    </div>

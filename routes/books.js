@@ -86,7 +86,7 @@ router.get('/', async (req, res) => {
 router.get('/new', async (req, res) => {
   // res.render('books/new',{book: new Book(), author: new Author()})
   //creating a function which render pages
-  renderNewPage(res, new Book())
+  renderFormPage(res, new Book(), 'new')
 
 })
 
@@ -102,30 +102,62 @@ router.post('/', async (req, res) => {
     description: req.body.description
   })
   saveCover(book, req.body.cover)
-  
+
   //creating function for uploading the cover to filepond.js
   try {
 
     const newBook = await book.save()
-    // res.redirect(`books/${newBook.id}`)
-    res.redirect('books')
-  } 
-  catch (error) {           
-//********************************************KNOWLEDGE INFO BOX************************************************************************************ */
-//                                                                                                                                                ** */    
-//                              //***************IF YOU ARE USING MULTER USE THIS CODE TO CHECK COVER IMAGE NAME */                               ** */
-//                              //we observe if we get error, while creating book, the boook cover is getting saved in public/uploads/bookCover   ** */
-//                              //function to remove book cover we use fs inbuilt library                                                         ** */
-//                              // if (book.coverImageName != null) {                                                                             ** */
-//                              //   removeBookCover(book.coverImageName)                                                                         ** */
-//                              // }                                                                                                              ** */
-//                                                                                                                                                ** */ 
-//********************************************KNOWLEDGE INFO BOX************************************************************************************ */
+    res.redirect(`books/${newBook.id}`)
+    // res.redirect('books')
+  }
+  catch (error) {
+    //********************************************KNOWLEDGE INFO BOX************************************************************************************ */
+    //                                                                                                                                                ** */    
+    //                              //***************IF YOU ARE USING MULTER USE THIS CODE TO CHECK COVER IMAGE NAME */                               ** */
+    //                              //we observe if we get error, while creating book, the boook cover is getting saved in public/uploads/bookCover   ** */
+    //                              //function to remove book cover we use fs inbuilt library                                                         ** */
+    //                              // if (book.coverImageName != null) {                                                                             ** */
+    //                              //   removeBookCover(book.coverImageName)                                                                         ** */
+    //                              // }                                                                                                              ** */
+    //                                                                                                                                                ** */ 
+    //********************************************KNOWLEDGE INFO BOX************************************************************************************ */
 
     console.error(error);
-    renderNewPage(res, book, true)
+    renderFormPage(res, book, 'new', true)
   }
 })
+//Router to show the book
+router.get('/:id', async (req, res) => {
+  try {
+    //to populate with all author data
+    const book = await Book.findById(req.params.id)
+      .populate('author')
+      .exec()
+    res.render('books/show', { book: book })
+  }
+  catch (error) {
+    res.redirect('/')
+  }
+
+})
+
+//edit book route
+router.get('/:id/edit', async (req, res) => {
+  // res.render('books/new',{book: new Book(), author: new Author()})
+  try {
+    const book = await Book.findById(req.params.id)
+    renderFormPage(res, book, 'edit')
+
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
+
+
+
+
 
 
 
@@ -145,42 +177,111 @@ router.post('/', async (req, res) => {
 
 
 
+
+
+//Uddate Book Route 
+router.put('/:id', async (req, res) => {
+
+  let book;
+  try {
+    book = await Book.findById(req.params.id)
+    book.title = req.body.title;
+    book.author = req.body.author;
+    book.publishDate = new Date(req.body.publishDate)
+    book.pageCount = req.body.pageCount;
+    book.description = req.body.description;
+
+    if (req.body.cover != null && req.body.cover !== '') {
+      saveCover(book, req.body.cover)
+    }
+    await book.save()
+    // res.redirect(`books/${newBook.id}`)
+    res.redirect(`/books/${book.id}`)
+  }
+  catch (error) {
+
+    if (book != null) {
+      console.log(error)
+      renderFormPage(res, book, 'edit', true)
+    } else {
+      console.log(error)
+      redirect('/')
+    }
+  }
+
+})
+
+//delete page
+router.delete('/:id', async (req, res) => {
+  let book;
+  try {
+    book = await Book.findById(req.params.id)
+    await book.remove()
+    res.redirect('/books')
+  }
+  catch (error) {
+    if (book == null) {
+res.redirect('/')
+    }
+    else {
+      res.render('books/show', {
+        book: book,
+        errorMessage: 'Could Not Remove Book'
+      })
+    }
+  }
+})
+
+
 // function to save cover
 function saveCover(book, coverEncoded) {
-   //if coverEncoded is nulll do nothing
-  if (coverEncoded == null) 
-    {
-      return
-    }
-    //else parsing coverEncoded into JSON.
+  //if coverEncoded is nulll do nothing
+  if (coverEncoded == null) {
+    return
+  }
+  //else parsing coverEncoded into JSON.
   const cover = JSON.parse(coverEncoded)
-   //check in order to avoid null values and do not accept the invalid type
+  //check in order to avoid null values and do not accept the invalid type
   if (cover != null && imageMimeTypes.includes(cover.type)) {
-     //filepond takes base64 enco ded data
+    //filepond takes base64 enco ded data
     book.coverImage = new Buffer.from(cover.data, 'base64')
     book.coverImageType = cover.type
   }
 }
 
 
-//function to render oage everytime 
-async function renderNewPage(res, book, hasError = false) {
+//function to render Edit or New Page based on form parameter
+
+async function renderFormPage(res, book, form, hasError = false) {
   try {
     const authors = await Author.find({})
     const params = {
       authors: authors,
-      book: book
+      book: book,
     }
     if (hasError) {
       console.error(hasError)
-      params.errorMessage = 'Error Creating Book'
+      if (form === 'new') {
+        params.errorMessage = 'Error Creating Book'
+      }
+      else {
+        params.errorMessage = 'Error Updating Book'
+      }
     }
-    res.render('books/new', params)
+    res.render(`books/${form}`, params)
   } catch (error) {
     console.error(error)
     res.redirect('/books')
   }
 }
+
+
+
+
+
+
+
+
 
 
 
