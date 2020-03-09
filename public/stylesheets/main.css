@@ -1,0 +1,64 @@
+@import 'shared/variables.css';
+@import 'shared/fonts.css';
+
+:root {
+    font-family:'Gotham Rounded';
+    font-size: 20px;
+    color:var(--color-text-light);
+}
+body {
+    background: linear-gradient(to right,
+    var(--color-background-dark), var(--color-background-light))
+    ;
+}
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+h2{
+    color:var(--color-text-light);
+}
+.container{
+    max-width: 1200px;
+    margin:auto;
+    margin-bottom:3rem;
+}
+.inner-container{
+    margin: 0 2rem;
+}
+.imageContainer{
+    position:relative;
+    padding:0;
+    width:300px;
+    display:block;
+    cursor:pointer;
+    overflow:hidden;
+    }
+    .content {
+    opacity:0;
+    font-size: 40px;
+    position:absolute;
+    top:0;
+    left:0;
+    color:#1c87c9;
+    background-color:rgba(200,200,200,0.5);
+    width:300px;
+    height:300px;
+    -webkit-transition: all 400ms ease-out;
+    -moz-transition: all 400ms ease-out;
+    -o-transition: all 400ms ease-out;
+    -ms-transition: all 400ms ease-out;
+    transition: all 400ms ease-out;
+    text-align:center;
+    }
+    .imageContainer .content:hover { opacity:1; }      
+    .imageContainer .content .text {
+    height:0;
+    opacity:1;
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    }
+    .imageContainer .content:hover .text {
+    opacity:1;
+    transform: translateY(250px);
+    -webkit-transform: translateY(250px);
+    }

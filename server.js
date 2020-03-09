@@ -2,12 +2,14 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
+//importing filepond
 
 // We need express, express-ejs-layouts,bodyparser, methodOverride(for put and delete request) and mongoose
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const FilePond=require('filepond')
 var methodOverride = require('method-override')
 //Creating instance of express class.
 const app = express();

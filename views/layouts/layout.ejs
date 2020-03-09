@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
     
+    <!-- filepond PLUGINS-->
+    <!-- filepond PLUGIN : filepond.css -->
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 
-<!-- filepond PLUGINS-->
-            <!-- filepond PLUGIN : filepond.css -->
-            <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <!-- filepond PLUGIN : for image preview -->
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet">
 
-            <!-- filepond PLUGIN : for image preview -->
-            <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
-            
-            <script defer src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script defer src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 
-            <!-- filepond PLUGIN : for file encode plugin -->
-            <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+    <!-- filepond PLUGIN : for file encode plugin -->
+    <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
 
-            <!-- filepond PLUGIN : if user has max image, we use image resize plugin -->
-            <script defer src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+    <!-- filepond PLUGIN : if user has max image, we use image resize plugin -->
+    <script defer src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
 
-            <!--All Plugins should be before filepond.js -->
-            <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
-            <script defer src="/javascripts/fileUpload.js"></script>
+    <!--All Plugins should be before filepond.js -->
+    <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script defer src="/javascripts/fileUpload.js"></script>
+    
+    <!-- bootstrap -->
+    <!-- <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 
-<title> My Book Store</title>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <title> My Book Store</title>
 </head>
+
 <body>
-    <%- include('../partials/header.ejs') %>
-    <%- body %>     
-    <%- include('../partials/error.ejs') %>
-    
+    <div class="container">
+
+        <%- include('../partials/header.ejs') %>
+        <div class="inner-container">
+            <%- include('../partials/error.ejs') %>
+            <%- body %>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -21,10 +21,15 @@ router.get('/', async (req, res) => {
     //this is for loading list of authors already in database
     try {
         const authors = await Author.find(searchOptions)
-        res.render('authors/index', {
-            authors: authors,
-            searchOptions: req.query
-        })
+        if (authors != null) {
+            res.render('authors/index', {
+                authors: authors,
+                searchOptions: req.query
+            })
+        }
+        else {  
+            res.render('authors/noAuthorERROR')
+        }
     } catch{
         red.redirect('/')
     }
@@ -50,8 +55,8 @@ router.post('/', async (req, res) => {
         const newAuthor = await author.save()
         res.redirect(`authors/${newAuthor.id}`)
     }
-    catch(error){
-        
+    catch (error) {
+
         res.render('authors/new', {
             author: author,
             errorMessage: 'Error Creating Author'
@@ -77,11 +82,11 @@ router.delete('/:id', async (req, res) => {
     catch (error) {
         if (author == null) {
             //error 1 if author doesnt exist, redirect to homepage
-            
+
             res.redirect('/')
         } else {
             //error 2 if unable to remve, redirect to author page.
-            
+
             res.redirect(`/authors/${author.id}`)
         }
     }
@@ -98,13 +103,13 @@ router.get('/:id', async (req, res) => {
             booksByAuthor: books
         })
     } catch (error) {
-        
+
         res.redirect('/')
     }
 
 
 
-    
+
 })
 
 // Edit Author Route
@@ -113,7 +118,7 @@ router.get('/:id/edit', async (req, res) => {
         const author = await Author.findById(req.params.id)
         res.render('authors/edit', { author: author })
     } catch (error) {
-        
+
         res.render('/authors')
 
     }

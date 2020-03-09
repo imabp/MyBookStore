@@ -1,8 +1,24 @@
-<h2>Recently Added</h2>
-<div>
+<h2 class="nonbootstrap">Recently Added</h2>
+<link rel="stylesheet" href="/stylesheets/main.css">
+
+<div class="container">
     <% books.forEach(book => { %>
     <a href="/books/<%= book.id %>">
-        <img src="<%= book.coverImagePath %>" height="150" width="100">
-    </a>
-    <% }); %>
+
+        <div class=imageContainer>
+            <img src="<%= book.coverImagePath %>" height="300" width="300">
+        </div>
+
+        <div class="content">
+            <div class="text">
+dsadoisaoidj
+                Title: <%=book.title%>
+                Author:<%=book.author.name%>
+Hello World
+            </div>
+        </div>
 </div>
+</a>
+<% }); %>
+</div>
+
